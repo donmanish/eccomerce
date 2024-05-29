@@ -1,8 +1,11 @@
 package com.userapi.eccomerceone.service;
 
 import com.userapi.eccomerceone.dto.FakeStoreProductDto;
+import com.userapi.eccomerceone.exceptions.ProductNotFoundException;
 import com.userapi.eccomerceone.model.Category;
 import com.userapi.eccomerceone.model.Product;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,12 +25,28 @@ public class FakeStoreProductService implements ProductService{
     }
 
     @Override
-    public Product getSingleProduct(Long ProductId) {
+    public Product getSingleProduct(Long ProductId) throws ProductNotFoundException {
         //here we call our fakestore product service of perticular product
         FakeStoreProductDto fakeStoreProductDto = restTemplate.getForObject(
           "https://fakestoreapi.com/products/" + ProductId,
                 FakeStoreProductDto.class
         );
+//        ResponseEntity<FakeStoreProductDto> fakeStoreProductDto = restTemplate.getForEntity(
+//                "https://fakestoreapi.com/products/" + ProductId,
+//                FakeStoreProductDto.class
+//        );
+//
+//        if(fakeStoreProductDto.getStatusCode() == HttpStatus.OK)
+//        {
+//            //ptint success of response
+//        } else if(fakeStoreProductDto.getStatusCode() == HttpStatus.NOT_FOUND)
+//        {
+//            //handle thing
+//        }
+        if(fakeStoreProductDto == null)
+        {
+            throw new ProductNotFoundException("Product not found wit ID: " + ProductId);
+        }
         return fakeStoreProductDto.toProduct();
     }
 

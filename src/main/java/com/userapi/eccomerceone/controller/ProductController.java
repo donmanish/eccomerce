@@ -1,10 +1,14 @@
 package com.userapi.eccomerceone.controller;
 
+import com.userapi.eccomerceone.dto.ErrorDto;
+import com.userapi.eccomerceone.exceptions.ProductNotFoundException;
 import com.userapi.eccomerceone.model.Category;
 import com.userapi.eccomerceone.model.Product;
 import com.userapi.eccomerceone.service.FakeStoreProductService;
 import com.userapi.eccomerceone.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,17 +52,22 @@ public class ProductController {
         return postRequestResponse;
     }
 
-    //get single product----------------------------------------
+    //get single product with response Entity----------------------------------------
     //path parameters
     @GetMapping("/products/{id}")
-    public Product  getProduct(@PathVariable("id") Long  producdId){
+    public ResponseEntity<Product>  getProduct(@PathVariable("id") Long  producdId) throws ProductNotFoundException {
         //Whenever someone is doing a get  request on /product
         //please execute this method
 
       Product currentProduct = productService.getSingleProduct(producdId);
-
-      return currentProduct;
+      ResponseEntity<Product> res = new ResponseEntity<>(
+              currentProduct, HttpStatus.OK
+      );
+      return res;
     }
+
+
+
 
     //update product--------------------------------------------
     @PutMapping("/products/{id}")
@@ -94,5 +103,15 @@ public class ProductController {
     public Category getCategory(@PathVariable("title") String title) {
         return productService.getCategoryByTitle(title);
     }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleProductNotFoundException(Exception e)
+    {
+        ErrorDto errorDto = new ErrorDto();
+        errorDto.setMessage(e.getMessage());
+
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
+
 
 }
