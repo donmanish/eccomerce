@@ -6,7 +6,8 @@ import com.userapi.eccomerceone.model.Category;
 import com.userapi.eccomerceone.model.Product;
 import com.userapi.eccomerceone.service.FakeStoreProductService;
 import com.userapi.eccomerceone.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +30,18 @@ public class ProductController {
     //  ProductService productService = new FakeStoreProductService();
     //  spring to create depedency injection
 
-    @Autowired
+//    @Autowired
    private  ProductService productService;
 
-    public ProductController(ProductService productService) {
+    //for for connection to database
+    public ProductController(@Qualifier("dbStoreProductService") ProductService productService) {
         this.productService = productService;
     }
+
+   //for fakeproduct seerce 3rd party integration
+//    public ProductController(@Qualifier("fakeProductService") ProductService productService) {
+//        this.productService = productService;
+//    }
 
 
     //get all products----------------------------------------------
