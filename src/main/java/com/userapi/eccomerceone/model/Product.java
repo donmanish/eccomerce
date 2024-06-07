@@ -24,4 +24,18 @@ public class Product extends BaseModel {
   @ManyToOne(cascade = CascadeType.PERSIST)
 //  @ManyToOne
   private Category category;
+
+
+  //directly generate toString() Methods for HQL and native Quries
+  //just foor print the product list in console
+  @Override
+  public String toString() {
+    return "Product{" +
+            "title='" + title + '\'' +
+            ", description='" + description + '\'' +
+            ", price=" + price +
+            ", imageUrl='" + imageUrl + '\'' +
+            ", category=" + category +
+            '}';
+  }
 }
