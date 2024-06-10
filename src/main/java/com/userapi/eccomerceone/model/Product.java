@@ -24,6 +24,7 @@ public class Product extends BaseModel {
   @ManyToOne(cascade = CascadeType.PERSIST)
 //  @ManyToOne
   private Category category;
+//  private int weight;
 
 
   //directly generate toString() Methods for HQL and native Quries
