@@ -22,10 +22,10 @@ public class Product extends BaseModel {
   private double price;
   private String imageUrl;
   @ManyToOne(cascade = CascadeType.PERSIST)
-//  @ManyToOne
+  //@ManyToOne
   private Category category;
-//  private int weight;
-
+  private int weight;
+  private int height;
 
   //directly generate toString() Methods for HQL and native Quries
   //just foor print the product list in console
