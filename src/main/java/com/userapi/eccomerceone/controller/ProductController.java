@@ -120,5 +120,10 @@ public class ProductController {
         return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
     }
 
+    //backend aws connect work
+    @GetMapping("/health")
+    public ResponseEntity<String> checkHealthOfService()  {
+        return new ResponseEntity<>("Backend service application work perfectly file", HttpStatus.OK);
+    }
 
 }
