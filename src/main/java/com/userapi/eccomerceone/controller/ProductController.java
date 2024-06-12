@@ -121,7 +121,7 @@ public class ProductController {
     }
 
     //backend aws connect work
-    @GetMapping("/health}")
+    @GetMapping("/health")
     public ResponseEntity<String> checkHealthOfService()  {
         return new ResponseEntity<>("Backend service application work perfectly file", HttpStatus.OK);
     }
